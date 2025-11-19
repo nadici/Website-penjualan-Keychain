@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NADICI SHOP</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-color: #6A0DAD; /* Ungu Primer */
+            --primary-darker: #4B0082; /* Ungu Gelap */
+            --accent-color: #D8BFD8; 
+            --text-dark: #333333;
+            --text-light: #555555;
+            --background-color: #F8F7FA;
+            --card-bg: #FFFFFF;
+            --shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            --shadow-strong: 0 8px 25px rgba(0, 0, 0, 0.15);
+            
+            /* Warna Brand Pembayaran */
+            --dana-blue: #118EE9;
+            --gopay-green: #00AA13;
+        }
+        
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        /* --- HEADER --- */
+        .header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem 5% 0;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .logo-container {
+             text-align: center;
+             position: absolute;
+             left: 50%;
+             transform: translateX(-50%);
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: white;
+            text-decoration: none;
+            display: block;
+            text-transform: uppercase;
+        }
+        .logo-container .group-name {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--accent-color);
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- NAVIGASI TAB --- */
+        .tab-nav {
+            background-color: var(--primary-darker);
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .tab-nav a {
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+        }
+
+        .tab-nav a:hover, .tab-nav a.active {
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        /* --- TOMBOL CART --- */
+        .cart-btn-wrapper { margin-left: auto; }
+
+        .cart-btn {
+            background: none;
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .cart-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+        
+        .cart-count {
+            background-color: white;
+            color: var(--primary-color);
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 50%;
+            padding: 3px 7px;
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            border: 2px solid var(--primary-darker);
+        }
+        
+        /* --- LAYOUT UTAMA --- */
+        .main-content {
+            padding: 3rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: calc(100vh - 200px); 
+        }
+
+        .content-section { padding: 0; }
+        
+        /* Intro Section */
+        .page-intro { text-align: center; }
+        .page-intro h1 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .page-intro p {
+            font-size: 1.1rem;
+            max-width: 750px;
+            margin: 0 auto 1.5rem auto;
+            color: var(--text-light);
+        }
+        
+        .product-section h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            color: var(--primary-color);
+        }
+        
+        /* --- GRID PRODUK --- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-strong);
+        }
+        
+        .product-image-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            display: flex;
+        }
+        
+        .product-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Layout Khusus Random Keychain */
+        .product-card.random-layout .product-image-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+        }
+
+        .product-card.random-layout .thumbnail-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 5px;
+        }
+
+        .product-card.random-layout .thumbnail-container img {
+            width: 100%;
+            height: 50%;
+            padding: 2px;
+            object-fit: contain;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-content h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .card-content .price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .add-to-cart-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        
+        .add-to-cart-btn:hover {
+            background-color: var(--primary-darker);
+            transform: scale(1.05);
+        }
+
+        /* --- PANEL KERANJANG (UPDATED FOR SCROLLING) --- */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 340px;
+            max-width: 90%;
+            height: 100%;
+            background-color: var(--card-bg);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.4s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cart-panel.open { transform: translateX(0); }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            flex-shrink: 0; /* Header tidak boleh mengecil */
+            background: white;
+            z-index: 10;
+        }
+        .cart-header h3 { color: var(--primary-color); }
+        
+        .close-cart-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* AREA SCROLLABLE UTAMA */
+        .cart-body { 
+            flex-grow: 1; 
+            overflow-y: auto; /* Ini kuncinya: scroll vertikal aktif */
+            padding: 0 1.5rem 3rem 1.5rem; /* Padding bawah ditambah agar tidak mepet */
+        }
+
+        .cart-items { list-style: none; margin-bottom: 1.5rem; }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+        .cart-item-details { flex-grow: 1; }
+        .cart-item-details span { display: block; font-size: 0.9rem; font-weight: 500; }
+        .cart-item-details .price { font-size: 0.8rem; color: var(--text-light); }
+        
+        .remove-item-btn { background: none; border: none; color: red; cursor: pointer; font-size: 1.1rem; padding: 5px; }
+        
+        /* Cart Footer sekarang ada di dalam body agar ikut ter-scroll */
+        .cart-footer-section {
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--accent-color);
+            margin-top: 1rem;
+        }
+
+        .cart-total { display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; }
+        
+        /* Form Checkout */
+        .checkout-form { display: flex; flex-direction: column; gap: 15px; }
+        .form-group { display: flex; flex-direction: column; }
+        .checkout-form label { font-weight: 500; color: var(--text-light); margin-bottom: 5px; font-size: 0.9rem; }
+        .checkout-form input[type="text"], .checkout-form input[type="email"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Montserrat', sans-serif; }
+        
+        .payment-methods h4 { margin-bottom: 10px; color: var(--primary-color); }
+        .payment-option { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.9rem; cursor: pointer; }
+        .payment-option input { cursor: pointer; }
+
+        /* --- TAMPILAN INFO PEMBAYARAN (DANA/GOPAY) --- */
+        .payment-info {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid var(--primary-color);
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .number-box {
+            background: white;
+            padding: 10px;
+            border: 1px dashed #aaa;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .copy-btn {
+            background: none; border: none; color: var(--primary-color); cursor: pointer; font-size: 1rem; padding: 5px;
+        }
+        .copy-btn:active { transform: scale(0.9); }
+
+        .app-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: opacity 0.3s;
+        }
+        .app-btn:hover { opacity: 0.9; }
+        
+        .dana-btn { background-color: var(--dana-blue); }
+        .gopay-btn { background-color: var(--gopay-green); }
+
+        .payment-info small { display: block; margin-top: 10px; color: #666; font-size: 0.8rem; font-style: italic; }
+
+        .qris-container { text-align: center; margin-top: 20px; }
+        .qris-container img { max-width: 150px; border: 2px solid var(--primary-color); border-radius: 8px; padding: 5px; background-color: white; }
+        
+        .checkout-btn {
+            background-color: var(--primary-color);
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px; 
+        }
+        .checkout-btn:hover { background-color: var(--primary-darker); transform: scale(1.02); }
+        
+        /* --- UTILITY --- */
+        .hidden { display: none !important; }
+        .cart-empty-message { text-align: center; padding: 3rem 1rem; color: var(--text-light); }
+        .footer { text-align: center; padding: 2rem; background-color: var(--primary-darker); color: white; font-size: 0.9rem; }
+        
+        /* --- MODAL & NOTIFICATION --- */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s 0.3s; }
+        .modal.show { opacity: 1; visibility: visible; transition: opacity 0.3s ease; }
+        .modal-content { background: white; padding: 2rem; border-radius: 12px; text-align: center; max-width: 400px; width: 90%; transform: translateY(-50px); transition: transform 0.3s ease; }
+        .modal.show .modal-content { transform: translateY(0); }
+        .modal-buttons { display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
+        .action-btn { background-color: #25D366; color: white; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: background-color 0.3s ease; border: none; cursor: pointer; }
+        .action-btn:hover { background-color: #128C7E; }
+        
+        .notification { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--text-dark); color: white; padding: 12px 25px; border-radius: 50px; z-index: 3000; font-size: 0.9rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, transform 0.3s ease, bottom 0.3s ease; }
+        .notification.show { opacity: 1; visibility: visible; bottom: 30px; }
+
+        @media (max-width: 768px) {
+            .cart-panel { width: 100%; max-width: none; }
+            .tab-nav { gap: 0.5rem; }
+            .tab-nav a { padding: 0.8rem 1rem; font-size: 0.9rem;}
+            .logo-container { position: static; transform: none; padding-right: 1rem;}
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div></div> 
+            <div class="logo-container">
+                <a href="#" class="logo">NADICI SHOP</a>
+                <p class="group-name">Solusi Terbaik untuk Gayamu</p>
+            </div>
+            <div class="cart-btn-wrapper">
+                <button id="cart-btn" class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                </button>
+            </div>
+        </nav>
+        <nav class="tab-nav">
+            <a href="#beranda" class="active" data-target="intro-section">Beranda</a> 
+            <a href="#produk" data-target="product-section">Produk</a>
+            <a href="#" id="checkout-link">Checkout</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section id="intro-section" class="content-section page-intro">
+            <h1>Temukan Kunci Estetik untuk Setiap Petualanganmu! ✨</h1> 
+            <p>Selamat datang di NADICI SHOP — destinasi utama bagi mereka yang menghargai detail kecil dengan dampak besar. Kami percaya bahwa gantungan kunci bukan hanya aksesoris fungsional, tapi juga perpanjangan dari gaya dan kepribadian Anda.</p>
+            <p>Telusuri koleksi gantungan kunci eksklusif kami, mulai dari desain yang minimalis dan elegan hingga yang custom dan unik. Setiap item dibuat dengan cinta dan perhatian terhadap kualitas, siap menemani kunci rumah, tas, atau bahkan menjadi hadiah sempurna untuk orang terkasih.</p>
+            <p>Kendalikan kerapian Anda, dan sempurnakan gayamu hari ini. Pesan sekarang dan tambahkan sentuhan personal yang membedakan Anda.</p>
+        </section>
+
+        <section id="product-section" class="content-section product-section hidden">
+            <h2>Pilihan Produk Kami</h2>
+            <div class="product-grid">
+                
+                <article class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://down-id.img.susercontent.com/file/7a7b6aeb9abadb7db744b89205cd4c50" alt="Keychain Custome">
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <h3>Keychain Custome</h3>
+                            <p class="price">Rp 12.000</p>
+                        </div>
+                        <button class="add-to-cart-btn" data-name="Keychain Custome" data-price="12000" data-img="https://down-id.img.susercontent.com/file/7a7b6aeb9abadb7db744b89205cd4c50">Tambah ke Keranjang</button>
+                    </div>
+                </article>
+
+                <article class="product-card random-layout">
+                    <div class="product-image-container">
+                        <img src="https://down-id.img.susercontent.com/file/id-11134207-7ra0p-mdd29dexsemvdf" alt="Keychain Random" class="main-random-image">
+                        <div class="thumbnail-container">
+                            <img src="https://down-id.img.susercontent.com/file/id-11134207-7ra0p-mdd29dexsemvdf" alt="Thumbnail 1">
+                            <img src="https://down-id.img.susercontent.com/file/id-11134207-7ra0p-mdd29dexsemvdf" alt="Thumbnail 2">
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <h3>Keychain Random</h3>
+                            <p class="price">Rp 7.000</p>
+                        </div>
+                        <button class="add-to-cart-btn" data-name="Keychain Random" data-price="7000" data-img="https://down-id.img.susercontent.com/file/id-11134207-7ra0p-mdd29dexsemvdf">Tambah ke Keranjang</button>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://images.tokopedia.net/img/cache/700/VqbcmM/2022/11/23/6fe5fe3a-7ede-442f-aaed-190f4da9f023.jpg" alt="Jedai Butterfly">
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <h3>Jedai Butterfly</h3>
+                            <p class="price">Rp 10.000</p>
+                        </div>
+                        <button class="add-to-cart-btn" data-name="Jedai Butterfly" data-price="10000" data-img="https://images.tokopedia.net/img/cache/700/VqbcmM/2022/11/23/6fe5fe3a-7ede-442f-aaed-190f4da9f023.jpg">Tambah ke Keranjang</button>
+                    </div>
+                </article>
+                </div>
+        </section>
+    </main>
+
+    <aside id="cart-panel" class="cart-panel">
+        <div class="cart-header"><h3>Keranjang Belanja </h3><button id="close-cart-btn" class="close-cart-btn"><i class="fas fa-times"></i></button></div>
+        
+        <div id="cart-body" class="cart-body">
+            <ul id="cart-items" class="cart-items"></ul>
+            <div id="cart-empty-message" class="cart-empty-message"><p>Keranjang Anda masih kosong.</p></div>
+            
+            <div id="cart-footer-section" class="cart-footer-section hidden">
+                <div class="cart-total"><span>Total:</span><span id="cart-total">Rp 0</span></div>
+                
+                <form id="checkout-form" class="checkout-form hidden">
+                    <div class="form-group"><label for="name">Nama Lengkap</label><input type="text" id="name" name="name" required></div>
+                    <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" required></div>
+                    <div class="form-group"><label for="address">Alamat Lengkap</label><input type="text" id="address" name="address" required></div>
+                    
+                    <div class="payment-methods">
+                        <h4>Pilih Metode Pembayaran</h4>
+                        
+                        <div class="payment-option">
+                            <input type="radio" id="dana" name="payment_method" value="DANA" checked>
+                            <label for="dana">DANA</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="gopay" name="payment_method" value="GOPAY">
+                            <label for="gopay">GOPAY</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="qris" name="payment_method" value="QRIS">
+                            <label for="qris">QRIS</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="cod" name="payment_method" value="COD">
+                            <label for="cod">COD (Bayar di Tempat)</label>
+                        </div>
+
+                        <div id="dana-display" class="payment-info hidden">
+                            <p>Silakan Transfer Manual ke DANA:</p>
+                            <div class="number-box">
+                                <span id="dana-number">081384172785</span>
+                                <button type="button" class="copy-btn" onclick="copyText('dana-number')" title="Salin Nomor"><i class="fas fa-copy"></i></button>
+                            </div>
+                            <a href="https://link.dana.id/" target="_blank" class="app-btn dana-btn"><i class="fas fa-wallet"></i> Buka Aplikasi DANA</a>
+                            <small>Mohon screenshot bukti transaksi anda.</small>
+                            <small>Sudah transfer? Klik "Konfirmasi Pesanan" di bawah.</small>
+                        </div>
+
+                        <div id="gopay-display" class="payment-info hidden">
+                            <p>Silakan Transfer Manual ke GoPay:</p>
+                            <div class="number-box">
+                                <span id="gopay-number">081384172785</span>
+                                 <button type="button" class="copy-btn" onclick="copyText('gopay-number')" title="Salin Nomor"><i class="fas fa-copy"></i></button>
+                            </div>
+                            <a href="gojek://gopay/transfer" target="_blank" class="app-btn gopay-btn"><i class="fas fa-motorcycle"></i> Buka Aplikasi Gojek</a>
+                            <small>Mohon screenshot bukti transaksi anda.</small>
+                            <small>Sudah transfer? Klik "Konfirmasi Pesanan" di bawah.</small>
+                        </div>
+
+                        <div id="qris-display" class="qris-container hidden">
+                            <p>Silakan scan QR Code di bawah ini:</p>
+                            <img src="https://i.ibb.co/3sCqj6B/qris-nadici.jpg" alt="QRIS Code">
+                            <small>Sudah transfer? Klik "Konfirmasi Pesanan" di bawah.</small>
+                        </div>
+                        
+                    </div>
+                    
+                    <button type="submit" class="checkout-btn">Konfirmasi Pesanan ke WhatsApp</button>
+                </form>
+                <button id="show-checkout-btn" class="checkout-btn">Checkout</button>
+            </div>
+        </div>
+    </aside>
+
+    <footer class="footer"><p>&copy; 2025 NADICI SHOP. Semua Hak Cipta Dilindungi.</p></footer>
+
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <h4 id="modal-title"></h4>
+            <p id="modal-text"></p>
+            <div class="modal-buttons">
+                <a href="#" class="action-btn" id="action-btn" target="_blank"></a>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification">Item ditambahkan ke keranjang!</div>
+
+    <script>
+        // Fungsi untuk menyalin nomor ke clipboard
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const notif = document.getElementById('notification');
+                notif.textContent = "Nomor berhasil disalin!";
+                notif.classList.add('show');
+                setTimeout(() => { notif.classList.remove('show'); }, 2000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Variabel Elemen ---
+            const cartPanel = document.getElementById('cart-panel');
+            const cartBtn = document.getElementById('cart-btn');
+            const closeCartBtn = document.getElementById('close-cart-btn');
+            const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+            const cartItemsList = document.getElementById('cart-items');
+            const cartTotalSpan = document.getElementById('cart-total');
+            const cartCountSpan = document.getElementById('cart-count');
+            const showCheckoutBtn = document.getElementById('show-checkout-btn');
+            const checkoutForm = document.getElementById('checkout-form');
+            const actionBtn = document.getElementById('action-btn');
+            const notification = document.getElementById('notification');
+            const cartFooterSection = document.getElementById('cart-footer-section'); // ID baru
+
+            // Konten Section
+            const introSection = document.getElementById('intro-section');
+            const productSection = document.getElementById('product-section');
+            const navLinks = document.querySelectorAll('.tab-nav a');
+
+            // --- FUNGSI NAVIGASI ---
+            function showSection(targetSectionId, linkElement) {
+                introSection.classList.add('hidden');
+                productSection.classList.add('hidden');
+
+                if (targetSectionId === 'intro-section') {
+                    introSection.classList.remove('hidden');
+                } else if (targetSectionId === 'product-section') {
+                    productSection.classList.remove('hidden');
+                }
+
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                if (linkElement) { linkElement.classList.add('active'); }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            navLinks.forEach(link => {
+                if (link.id !== 'checkout-link') {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showSection(e.currentTarget.dataset.target, e.currentTarget);
+                    });
+                } else {
+                     link.addEventListener('click', (e) => { 
+                         e.preventDefault(); 
+                         cartPanel.classList.add('open');
+                         navLinks.forEach(nav => nav.classList.remove('active'));
+                     });
+                }
+            });
+            showSection('intro-section', document.querySelector('[data-target="intro-section"]'));
+
+            // --- FUNGSI KERANJANG ---
+            let cart = JSON.parse(localStorage.getItem('nadiciCart')) || [];
+            const formatRupiah = (num) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
+            
+            function saveCart() { localStorage.setItem('nadiciCart', JSON.stringify(cart)); }
+            
+            function updateCartUI() {
+                cartItemsList.innerHTML = ''; 
+                let total = 0; 
+                let totalItems = 0;
+                const cartEmptyMessage = document.getElementById('cart-empty-message');
+
+                if (cart.length === 0) { 
+                    cartEmptyMessage.classList.remove('hidden'); 
+                    cartFooterSection.classList.add('hidden'); // Sembunyikan footer jika kosong
+                } else {
+                    cartEmptyMessage.classList.add('hidden'); 
+                    cartFooterSection.classList.remove('hidden'); // Tampilkan footer
+                    checkoutForm.classList.add('hidden'); 
+                    showCheckoutBtn.classList.remove('hidden');
+                    
+                    cart.forEach((item, index) => {
+                        const li = document.createElement('li'); 
+                        li.className = 'cart-item';
+                        li.innerHTML = `
+                            <img src="${item.img}" alt="${item.name}">
+                            <div class="cart-item-details">
+                                <span>${item.name} (x${item.quantity})</span>
+                                <span class="price">${formatRupiah(item.price * item.quantity)}</span>
+                            </div>
+                            <button class="remove-item-btn" data-index="${index}" title="Hapus item"><i class="fas fa-trash-alt"></i></button>
+                        `;
+                        cartItemsList.appendChild(li); 
+                        total += item.price * item.quantity; 
+                        totalItems += item.quantity;
+                    });
+                }
+                cartTotalSpan.textContent = formatRupiah(total); 
+                cartCountSpan.textContent = totalItems;
+            }
+
+            function showNotification(message) {
+                notification.textContent = message; notification.classList.add('show');
+                setTimeout(() => { notification.classList.remove('show'); }, 2000);
+            }
+
+            cartBtn.addEventListener('click', () => cartPanel.classList.add('open'));
+            closeCartBtn.addEventListener('click', () => cartPanel.classList.remove('open'));
+            
+            addToCartBtns.forEach(button => {
+                button.addEventListener('click', () => {
+                    const name = button.dataset.name; 
+                    const price = parseInt(button.dataset.price); 
+                    const img = button.dataset.img;
+                    const existingItem = cart.find(item => item.name === name);
+                    
+                    if (existingItem) { existingItem.quantity++; } 
+                    else { cart.push({ name, price, quantity: 1, img }); }
+                    
+                    saveCart(); updateCartUI(); showNotification(`${name} ditambahkan!`);
+                });
+            });
+            
+            cartItemsList.addEventListener('click', e => {
+                const removeButton = e.target.closest('.remove-item-btn');
+                if (removeButton) { 
+                    cart.splice(removeButton.dataset.index, 1); 
+                    saveCart(); updateCartUI(); 
+                }
+            });
+            
+            showCheckoutBtn.addEventListener('click', () => { 
+                showCheckoutBtn.classList.add('hidden'); 
+                checkoutForm.classList.remove('hidden'); 
+                
+                const checkedRadio = document.querySelector('input[name="payment_method"]:checked');
+                if (checkedRadio) checkedRadio.dispatchEvent(new Event('change'));
+            });
+
+            // LOGIKA GANTI METODE PEMBAYARAN
+            document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    const danaDisplay = document.getElementById('dana-display');
+                    const gopayDisplay = document.getElementById('gopay-display');
+                    const qrisDisplay = document.getElementById('qris-display');
+                    
+                    danaDisplay.classList.add('hidden');
+                    gopayDisplay.classList.add('hidden');
+                    qrisDisplay.classList.add('hidden');
+                    
+                    if (radio.value === 'DANA') {
+                        danaDisplay.classList.remove('hidden');
+                    } else if (radio.value === 'GOPAY') {
+                        gopayDisplay.classList.remove('hidden');
+                    } else if (radio.value === 'QRIS') {
+                        qrisDisplay.classList.remove('hidden');
+                    }
+                });
+            });
+
+            // --- FUNGSI CHECKOUT ---
+            checkoutForm.addEventListener('submit', e => {
+                e.preventDefault();
+                const name = document.getElementById('name').value; 
+                const email = document.getElementById('email').value; 
+                const address = document.getElementById('address').value; 
+                const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+                
+                let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const whatsappSellerNumber = "6281384172785"; 
+                
+                let orderDetails = `Halo NADICI SHOP, saya ingin memesan:\n\n`;
+                cart.forEach(item => { orderDetails += `• ${item.name} (x${item.quantity}) - ${formatRupiah(item.price * item.quantity)}\n`; });
+                orderDetails += `\n*Total Pesanan: ${formatRupiah(total)}*`; 
+                orderDetails += `\n\n*Detail Pelanggan:*\nNama: ${name}\nEmail: ${email}\nAlamat: ${address}\n`; 
+                orderDetails += `\nMetode Pembayaran: *${paymentMethod}*`;
+                
+                if (paymentMethod === 'COD') {
+                    orderDetails += ` (Mohon konfirmasi pengiriman)`;
+                } else if (paymentMethod === 'DANA' || paymentMethod === 'GOPAY' || paymentMethod === 'QRIS') {
+                    orderDetails += ` (Bukti transfer terlampir)`;
+                }
+                
+                const whatsappURL = `https://wa.me/${whatsappSellerNumber}?text=${encodeURIComponent(orderDetails)}`;
+                
+                const modalTitle = document.getElementById('modal-title');
+                const modalText = document.getElementById('modal-text');
+                const confirmationModal = document.getElementById('confirmation-modal');
+                
+                modalTitle.textContent = 'Langkah Terakhir!'; 
+                if(paymentMethod === 'COD') {
+                    modalText.textContent = 'Kirim detail pesanan ini ke WhatsApp untuk diproses penjual.';
+                } else {
+                    modalText.textContent = 'Pastikan Anda sudah transfer. Silakan kirim detail pesanan & bukti bayar ke WhatsApp kami.';
+                }
+
+                actionBtn.href = whatsappURL; 
+                actionBtn.innerHTML = `<i class="fab fa-whatsapp"></i> Kirim ke WhatsApp`;
+                confirmationModal.classList.add('show');
+            });
+            
+            actionBtn.addEventListener('click', () => {
+                setTimeout(() => {
+                    cart = []; saveCart(); updateCartUI(); checkoutForm.reset();
+                    cartPanel.classList.remove('open'); 
+                    document.getElementById('confirmation-modal').classList.remove('show');
+                    document.getElementById('qris-display').classList.add('hidden');
+                    document.getElementById('dana-display').classList.add('hidden');
+                    document.getElementById('gopay-display').classList.add('hidden');
+                    
+                    document.getElementById('dana').checked = true;
+                    showCheckoutBtn.classList.remove('hidden');
+                    checkoutForm.classList.add('hidden');
+                }, 1000);
+            });
+            
+            updateCartUI();
+        });
+    </script>
+</body>
+</html>
